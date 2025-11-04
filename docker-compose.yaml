@@ -1,0 +1,57 @@
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    develop:
+      watch:
+        - action: sync
+          path: ./backend/
+          target: /app
+          ignore: ./backend/.venv/
+        
+        - action: rebuild
+          path: ./uv.lock
+
+  backend:
+    build: ./backend
+    environment:
+      - PYTHONPATH=/app
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    ports:
+      - "5000:5000"
+    develop:
+      watch:
+        - action: sync
+          path: ./backend/
+          target: /app
+          ignore: ./backend/.venv/
+        
+        - action: rebuild
+          path: ./uv.lock
+  db:
+    image: postgres:18
+    volumes:
+      - postgres_data:/var/lib/postgresql/
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_DB=${DB_NAME}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
