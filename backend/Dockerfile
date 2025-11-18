@@ -16,6 +16,5 @@ FROM debian:bookworm-slim
 COPY --from=builder /python /python
 COPY --from=builder /app /app
 ENV PATH="/app/.venv/bin:$PATH"
-WORKDIR /app
-#CMD ["ls", "/app/.venv/bin"]
+WORKDIR /app/src
 CMD flask --app app run --host=0.0.0.0
