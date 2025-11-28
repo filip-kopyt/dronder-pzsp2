@@ -1,7 +1,4 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-name: Python application
+name: Python Backend
 
 on:
   push:
@@ -34,6 +31,7 @@ jobs:
       working-directory: ./backend
       run: |
         uv tool install flake8
+        uv tool install mypy
         uv sync --locked --all-extras --dev
       
     - name: Lint with flake8
@@ -44,6 +42,10 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         uv run flake8 src --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     
+    - name: Typecheck with mypy
+      working-directory: ./backend
+      run: uv run mypy src
+
     - name: Run Tests
       working-directory: ./backend
       run: uv run pytest tests
