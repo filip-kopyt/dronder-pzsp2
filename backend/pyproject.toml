@@ -5,7 +5,19 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "email-validator>=2.3.0",
     "flask>=3.1.2",
+    "pydantic>=2.12.4",
+]
+
+[build-system]
+requires = ['setuptools']
+build-backend = 'setuptools.build_meta'
+
+[dependency-groups]
+dev = [
+    "flask>=3.1.2",
+    "pytest>=9.0.1",
 ]
 
 [dependency-groups]
