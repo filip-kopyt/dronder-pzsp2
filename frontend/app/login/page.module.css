@@ -1,0 +1,136 @@
+body {
+  overflow: hidden;
+}
+
+.LogContainer {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+.LeftBox {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 40vw;
+  height: 100vh;
+  background-color: #168aad;
+  opacity: 90%;
+  border-top-right-radius: 200px;
+  border-bottom-right-radius: 200px;
+  z-index: -1;
+  transition: width 1s ease, right 1s ease;
+}
+
+.LogLeft {
+  color: white;
+  font-weight: bold;
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 13vh;
+  position: relative;
+  top: 20vh;
+  left: -7vw;
+}
+
+.LogLeft h1 {
+  font-size: 4.2vw;
+  margin-bottom: 1vw;
+}
+
+.LogLeft p {
+  font-size: 2vw;
+  margin-bottom: 2vw;
+}
+
+.LeftButton {
+  font-size: 1.5vw !important;
+  background: transparent;
+  border: 1px solid white !important;
+  border-color: white !important;
+  color: white !important;
+  padding: 20px 30px;
+  cursor: pointer;
+  border-radius: 0px;
+}
+
+.LeftButton:hover {
+  transform: scale(1.05);
+  color: white;
+  font-weight: bolder;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.LogRight {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 15vh;
+  position: relative;
+  left: -4vw;
+}
+
+.appLogo {
+  opacity: 100%;
+  width: 35vh;
+  height: 35vh;
+  margin-bottom: 4vh;
+}
+
+.Input {
+  margin-bottom: 4vh !important;
+  font-size: 1.5vw !important;
+  width: 30vw !important;
+  height: 3vw !important;
+  color: black !important;
+}
+
+.RightButton {
+  background-color: #168aad !important;
+  border: 1px solid #127390 !important;
+  opacity: 78% !important;
+  font-size: 1.5vw !important;
+  width: 30vw !important;
+  height: 4vw !important;
+  color: white !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.RightButton:hover {
+  font-weight: bolder;
+  background-color: #147f9f !important;
+  border-color: #168aad !important;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.HomeButton {
+  color: rgb(0, 0, 0);
+  margin-top: 2vh;
+  border: 1px solid #2e28dc;
+  opacity: 70%;
+  font-size: 1.1vw;
+  width: 13vw;
+  height: 2vw;
+  cursor: pointer;
+}
+
+.HomeButton:hover {
+  transform: scale(1.05);
+  font-weight: bolder;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.errorMessage {
+  color: #d22b2b;
+  font-size: 1.2vw;
+}
