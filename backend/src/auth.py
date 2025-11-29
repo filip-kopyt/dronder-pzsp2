@@ -1,6 +1,5 @@
-from dataclasses import dataclass
-import json
 import logging
+from dataclasses import dataclass
 from http import HTTPStatus
 from typing import Annotated, Self
 
@@ -9,7 +8,6 @@ from flask import Blueprint, Response, jsonify, request
 from pydantic import (
     BaseModel,
     EmailStr,
-    SecretStr,
     StringConstraints,
     ValidationError,
     model_validator,
@@ -42,7 +40,8 @@ class RegisterForm(BaseModel):
                 input=self,
                 ctx={"reason": "Passwords do not match"},
             )
-            raise ValidationError.from_exception_data(self.__class__.__name__, [error])
+            raise ValidationError.from_exception_data(
+                self.__class__.__name__, [error])
         return self
 
 
@@ -64,7 +63,7 @@ class User(SQLModel, table=True):
 def register_user():
     form: RegisterForm
     try:
-        form = RegisterForm(**(request.json or {}))  # pyright: ignore[reportUnknownArgumentType]
+        form = RegisterForm(**(request.json or {}))  # pyright: ignore[reportUnknownArgumentType]  # noqa: E501
     except ValidationError as e:
         logging.info(f"Bad register_user request form\n{e}")
         return Response(
@@ -88,6 +87,8 @@ def register_user():
     return jsonify(user.model_dump()), HTTPStatus.CREATED
 
 
+# NOTE: Development only
+# FIX: Remove or authenticate
 @bp.route("/list", methods=["GET"])
 def list_users():
     users = db.session.execute(select(User).order_by(User.email)).scalars()
@@ -98,7 +99,7 @@ def list_users():
 def login_user():
     form: LoginForm
     try:
-        form = LoginForm(**(request.json or {}))  # pyright: ignore[reportUnknownArgumentType]
+        form = LoginForm(**(request.json or {}))  # pyright: ignore[reportUnknownArgumentType]  # noqa: E501
     except ValidationError as e:
         logging.info(f"Bad register_user request form\n{e}")
         return Response(
@@ -107,7 +108,8 @@ def login_user():
             mimetype="application/json",
         )
 
-    user = db.session.scalars(select(User).filter_by(email=form.email)).one_or_none()
+    user = db.session.scalars(
+        select(User).filter_by(email=form.email)).one_or_none()
 
     if user is None:
         return "User doen't exists", HTTPStatus.NOT_FOUND
@@ -115,4 +117,5 @@ def login_user():
     if user.password != form.password:
         return "Invalid password", HTTPStatus.BAD_REQUEST
 
+    # TODO: Authentication with JWT
     return f"User {form.email} logged in", HTTPStatus.OK
