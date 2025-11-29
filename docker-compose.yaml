@@ -1,22 +1,14 @@
 services:
   frontend:
     build: ./frontend
+    container_name: frontend
     ports:
       - "3000:3000"
     env_file:
       - .env
-    develop:
-      watch:
-        - action: sync
-          path: ./backend/
-          target: /app
-          ignore: ./backend/.venv/
-        
-        - action: rebuild
-          path: ./uv.lock
-
   backend:
     build: ./backend
+    container_name: backend
     environment:
       - PYTHONPATH=/app
     depends_on:
@@ -37,6 +29,7 @@ services:
           path: ./uv.lock
   db:
     image: postgres:18
+    container_name: database
     volumes:
       - postgres_data:/var/lib/postgresql/
     env_file:
