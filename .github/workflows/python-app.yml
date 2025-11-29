@@ -44,7 +44,7 @@ jobs:
     
     - name: Typecheck with mypy
       working-directory: ./backend
-      run: uv run mypy src
+      run: uv run mypy --check-untyped-defs src
 
     - name: Run Tests
       working-directory: ./backend
