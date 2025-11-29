@@ -24,9 +24,10 @@ services:
           path: ./backend/
           target: /app
           ignore: ./backend/.venv/
-        
         - action: rebuild
-          path: ./uv.lock
+          path: ./backend/
+          target: /app
+          ignore: ./backend/.venv/
   db:
     image: postgres:18
     container_name: database

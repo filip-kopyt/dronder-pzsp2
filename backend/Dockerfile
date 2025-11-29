@@ -17,5 +17,4 @@ COPY --from=builder /python /python
 COPY --from=builder /app /app
 ENV PATH="/app/.venv/bin:$PATH"
 WORKDIR /app
-#CMD ["ls", "/app/.venv/bin"]
 CMD flask --app src/app run --host=0.0.0.0

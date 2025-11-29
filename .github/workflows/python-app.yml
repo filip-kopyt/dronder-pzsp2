@@ -1,0 +1,51 @@
+name: Python Backend
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v5
+
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version-file: "./backend/pyproject.toml"
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        enable-cache: true
+    
+    - name: Install the project
+      working-directory: ./backend
+      run: |
+        uv tool install flake8
+        uv tool install mypy
+        uv sync --locked --all-extras --dev
+      
+    - name: Lint with flake8
+      working-directory: ./backend
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        uv run flake8 src --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        uv run flake8 src --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    
+    - name: Typecheck with mypy
+      working-directory: ./backend
+      run: uv run mypy src
+
+    - name: Run Tests
+      working-directory: ./backend
+      run: uv run pytest tests
